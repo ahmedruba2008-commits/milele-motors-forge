@@ -21,8 +21,8 @@ export function HowItWorks() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] items-start gap-y-10 gap-x-6 mt-16">
           {steps.map((s, i) => (
-            <>
-              <div key={s.n} className="text-center p-4">
+            <div key={s.n} className="contents">
+              <div className="text-center p-4">
                 <p className="text-brand-blue font-syne font-black text-sm tracking-widest mb-3">{s.n}</p>
                 <div className="bg-brand-blue w-16 h-16 rounded-full grid place-items-center text-white mx-auto shadow-lg shadow-blue-500/40">
                   <s.icon size={28} />
@@ -33,7 +33,7 @@ export function HowItWorks() {
               {i < steps.length - 1 && (
                 <div className="hidden lg:grid place-items-center text-brand-blue text-4xl pt-12" aria-hidden="true">→</div>
               )}
-            </>
+            </div>
           ))}
         </div>
 
