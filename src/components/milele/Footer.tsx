@@ -1,18 +1,6 @@
 import { PhoneCall, Mail, Instagram, Facebook, Youtube } from "lucide-react";
 import { TEL_LINK, EMAIL, WA_LINK, PHONE } from "@/lib/milele";
-
-function Logo() {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="w-9 h-9 rotate-45 bg-brand-blue grid place-items-center shadow-lg shadow-blue-500/40">
-        <span className="-rotate-45 font-syne font-black text-white text-lg leading-none">M</span>
-      </span>
-      <span className="font-syne font-black text-white text-xl leading-none">
-        Milele<span className="font-light text-brand-blue ml-1">Motors</span>
-      </span>
-    </div>
-  );
-}
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (

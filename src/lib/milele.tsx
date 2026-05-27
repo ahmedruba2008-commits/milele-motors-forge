@@ -1,7 +1,8 @@
 export const PHONE = "9964174299";
 export const PHONE_INTL = "919964174299";
 export const EMAIL = "milelemotors001@gmail.com";
-export const WA_LINK = `https://wa.me/${PHONE_INTL}?text=Hi%20Milele%20Motors%2C%20I%20am%20interested%20in%20your%20services`;
+export const WA_BASE = `https://wa.me/${PHONE_INTL}`;
+export const WA_LINK = `${WA_BASE}?text=Hi%20Milele%20Motors%2C%20I%20am%20interested%20in%20your%20services`;
 export const TEL_LINK = `tel:${PHONE}`;
 
 export function WhatsAppIcon({ className = "" }: { className?: string }) {

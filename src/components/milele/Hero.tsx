@@ -1,96 +1,54 @@
 import { useState } from "react";
-import { PhoneCall, Sparkles, CheckCircle2 } from "lucide-react";
+import { PhoneCall, Sparkles } from "lucide-react";
 import { TEL_LINK, WA_LINK, WhatsAppIcon } from "@/lib/milele";
 
 const years = Array.from({ length: 26 }, (_, i) => 2025 - i);
 
 function QuoteWidget() {
-  const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ year: "", make: "", model: "", mileage: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      sessionStorage.setItem("milele_hero_prefill", JSON.stringify(form));
+    } catch {}
+    const el = document.getElementById("sell-cars");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.dispatchEvent(new CustomEvent("milele:hero-prefill", { detail: form }));
+  };
 
   return (
     <div className="relative">
       <div className="absolute -inset-1 bg-brand-blue/20 blur-2xl rounded-3xl -z-10" />
       <div className="bg-white rounded-3xl shadow-2xl p-8 relative overflow-hidden">
-        {!submitted ? (
-          <>
-            <div className="flex items-center gap-3">
-              <span className="w-10 h-10 rounded-xl bg-brand-blue/10 text-brand-blue grid place-items-center">
-                <Sparkles size={20} />
-              </span>
-              <div>
-                <h3 className="font-syne font-bold text-xl text-brand-navy">Get Your Free Quote</h3>
-                <p className="text-sm text-brand-gray">Takes less than 60 seconds</p>
-              </div>
-            </div>
-            <form
-              className="mt-6 space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSubmitted(true);
-              }}
-            >
-              <div>
-                <label className="sr-only" htmlFor="year">Year</label>
-                <select
-                  id="year"
-                  required
-                  value={form.year}
-                  onChange={(e) => setForm({ ...form, year: e.target.value })}
-                  className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy bg-white font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all duration-200"
-                >
-                  <option value="">Year of manufacture</option>
-                  {years.map((y) => <option key={y} value={y}>{y}</option>)}
-                </select>
-              </div>
-              <input
-                required
-                placeholder="Make / Brand (e.g. Maruti, Hyundai)"
-                value={form.make}
-                onChange={(e) => setForm({ ...form, make: e.target.value })}
-                className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all duration-200"
-                aria-label="Vehicle make"
-              />
-              <input
-                required
-                placeholder="Model (e.g. Swift, i20, City)"
-                value={form.model}
-                onChange={(e) => setForm({ ...form, model: e.target.value })}
-                className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all duration-200"
-                aria-label="Vehicle model"
-              />
-              <input
-                required
-                type="number"
-                placeholder="Mileage in km (e.g. 45000)"
-                value={form.mileage}
-                onChange={(e) => setForm({ ...form, mileage: e.target.value })}
-                className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all duration-200"
-                aria-label="Mileage in kilometers"
-              />
-              <button
-                type="submit"
-                className="w-full bg-brand-blue hover:bg-brand-blue-dark text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm mt-2 shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5"
-              >
-                Get My Free Quote →
-              </button>
-            </form>
-          </>
-        ) : (
-          <div className="text-center py-6">
-            <div className="w-20 h-20 mx-auto rounded-full bg-brand-green/10 grid place-items-center animate-[pop_0.5s_ease-out]">
-              <CheckCircle2 size={48} className="text-brand-green" />
-            </div>
-            <h3 className="font-syne font-bold text-2xl text-brand-navy mt-6">All set!</h3>
-            <p className="text-brand-gray mt-2">We'll contact you within 15 minutes!</p>
-            <a
-              href={TEL_LINK}
-              className="inline-block mt-6 text-brand-blue font-bold underline"
-            >
-              Or call us directly →
-            </a>
+        <div className="flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-brand-blue/10 text-brand-blue grid place-items-center">
+            <Sparkles size={20} />
+          </span>
+          <div>
+            <h3 className="font-syne font-bold text-xl text-brand-navy">Get Your Expert Quote</h3>
+            <p className="text-sm text-brand-gray">Evaluated by our certified team</p>
           </div>
-        )}
+        </div>
+        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+          <select
+            required
+            value={form.year}
+            onChange={(e) => setForm({ ...form, year: e.target.value })}
+            className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy bg-white font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all"
+            aria-label="Year of manufacture"
+          >
+            <option value="">Year of manufacture</option>
+            {years.map((y) => <option key={y} value={y}>{y}</option>)}
+          </select>
+          <input required placeholder="Make / Brand (e.g. Maruti, Hyundai)" value={form.make} onChange={(e) => setForm({ ...form, make: e.target.value })} className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all" aria-label="Vehicle make" />
+          <input required placeholder="Model (e.g. Swift, i20, City)" value={form.model} onChange={(e) => setForm({ ...form, model: e.target.value })} className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all" aria-label="Vehicle model" />
+          <input required type="number" placeholder="Mileage in km (e.g. 45000)" value={form.mileage} onChange={(e) => setForm({ ...form, mileage: e.target.value })} className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all" aria-label="Mileage" />
+          <button type="submit" className="w-full bg-brand-blue hover:bg-brand-blue-dark text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm mt-2 shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5">
+            Get My Expert Quote →
+          </button>
+          <p className="text-center text-xs text-brand-gray">Our experts will review and send your custom quote.</p>
+        </form>
       </div>
     </div>
   );
@@ -117,29 +75,14 @@ export function Hero() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               {["✓ Fair Pricing", "✓ No Hidden Charges", "✓ Expert Inspection"].map((b) => (
-                <span
-                  key={b}
-                  className="bg-white/10 text-white/80 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest"
-                >
-                  {b}
-                </span>
+                <span key={b} className="bg-white/10 text-white/80 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest">{b}</span>
               ))}
             </div>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <a
-                href={TEL_LINK}
-                aria-label="Call Milele Motors at 9964174299"
-                className="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60 transition-all duration-300 hover:-translate-y-1"
-              >
+              <a href={TEL_LINK} aria-label="Call Milele Motors at 9964174299" className="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60 transition-all duration-300 hover:-translate-y-1">
                 <PhoneCall size={18} /> Call Now
               </a>
-              <a
-                href={WA_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat with Milele Motors on WhatsApp"
-                className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 hover:-translate-y-1"
-              >
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer" aria-label="Chat with Milele Motors on WhatsApp" className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 hover:-translate-y-1">
                 <WhatsAppIcon className="w-5 h-5" /> Chat on WhatsApp
               </a>
             </div>
