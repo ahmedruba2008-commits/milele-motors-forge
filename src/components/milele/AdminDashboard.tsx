@@ -1,10 +1,10 @@
 import { useMemo, useRef, useState, useEffect } from "react";
-import { X, Car, Upload, Trash2, Edit3, Phone, MessageCircle, Clock, CheckCircle2, Bell, Settings } from "lucide-react";
+import { X, Car, Upload, Trash2, Edit3, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 import { useInventory, Vehicle } from "@/context/InventoryContext";
 import { useQuotes } from "@/context/QuoteContext";
 import { useToast } from "@/context/ToastContext";
 import { Logo } from "./Logo";
-import { PHONE_INTL } from "@/lib/milele";
+
 
 const inputCls =
   "w-full bg-brand-navy border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/30 transition-all";
@@ -362,23 +362,27 @@ function LogoSettings() {
   );
 }
 
-export function AdminDashboard({ onClose }: { onClose: () => void }) {
+export function AdminDashboard({ onSignOut, userEmail }: { onSignOut: () => void; userEmail?: string }) {
   const [tab, setTab] = useState<"inventory" | "add" | "quotes">("inventory");
   const [editing, setEditing] = useState<Vehicle | null>(null);
   const { quotes } = useQuotes();
   const pendingCount = useMemo(() => quotes.filter((q) => q.status === "pending").length, [quotes]);
 
   return (
-    <div className="fixed inset-0 z-[100] bg-brand-navy overflow-y-auto">
+    <div className="min-h-screen bg-brand-navy">
       <div className="sticky top-0 z-10 bg-brand-navy/95 backdrop-blur border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Logo size="sm" />
             <span className="bg-brand-blue text-white text-xs px-3 py-1 rounded-full font-bold">Admin Panel</span>
+            {userEmail && <span className="hidden sm:inline text-white/50 text-xs">{userEmail}</span>}
           </div>
-          <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2">
-            <X size={14} /> Exit Admin
-          </button>
+          <div className="flex items-center gap-2">
+            <a href="/" className="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-xs font-bold">View Site</a>
+            <button onClick={onSignOut} className="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2">
+              <X size={14} /> Sign Out
+            </button>
+          </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-6 text-sm font-bold">
           {[
@@ -414,14 +418,7 @@ export function AdminDashboard({ onClose }: { onClose: () => void }) {
 
         <LogoSettings />
       </div>
-
-      <div className="fixed bottom-4 left-4 z-[99]">
-        <button onClick={onClose} className="bg-brand-blue text-white text-xs font-bold px-3 py-2 rounded-full shadow-lg flex items-center gap-2">
-          <Settings size={12} /> Admin Mode Active — Click to Exit
-        </button>
-      </div>
     </div>
   );
 }
 
-export { Bell, Clock };
