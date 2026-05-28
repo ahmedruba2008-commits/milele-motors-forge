@@ -1,10 +1,10 @@
 import { useMemo, useRef, useState, useEffect } from "react";
-import { X, Car, Upload, Trash2, Edit3, Phone, MessageCircle, Clock, CheckCircle2, Bell, Settings } from "lucide-react";
+import { X, Car, Upload, Trash2, Edit3, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 import { useInventory, Vehicle } from "@/context/InventoryContext";
 import { useQuotes } from "@/context/QuoteContext";
 import { useToast } from "@/context/ToastContext";
 import { Logo } from "./Logo";
-import { PHONE_INTL } from "@/lib/milele";
+
 
 const inputCls =
   "w-full bg-brand-navy border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/30 transition-all";
