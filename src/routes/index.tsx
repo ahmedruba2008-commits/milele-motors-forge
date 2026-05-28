@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/milele/Navbar";
 import { Hero } from "@/components/milele/Hero";
@@ -10,10 +9,6 @@ import { Testimonials } from "@/components/milele/Testimonials";
 import { CtaStrip } from "@/components/milele/CtaStrip";
 import { Footer } from "@/components/milele/Footer";
 import { FloatingActions } from "@/components/milele/FloatingActions";
-import { InventoryProvider } from "@/context/InventoryContext";
-import { QuoteProvider } from "@/context/QuoteContext";
-import { ToastProvider } from "@/context/ToastContext";
-import { AdminDashboard } from "@/components/milele/AdminDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,41 +24,21 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
-        e.preventDefault();
-        setIsAdmin((p) => !p);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
   return (
-    <ToastProvider>
-      <InventoryProvider>
-        <QuoteProvider>
-          {isAdmin && <AdminDashboard onClose={() => setIsAdmin(false)} />}
-          <div className="bg-brand-white">
-            <Navbar />
-            <main>
-              <Hero />
-              <Features />
-              <SellCar />
-              <BuyCar />
-              <HowItWorks />
-              <Testimonials />
-              <CtaStrip />
-            </main>
-            <Footer />
-            <FloatingActions />
-            <div className="md:hidden h-16" aria-hidden="true" />
-          </div>
-        </QuoteProvider>
-      </InventoryProvider>
-    </ToastProvider>
+    <div className="bg-brand-white">
+      <Navbar />
+      <main>
+        <Hero />
+        <Features />
+        <SellCar />
+        <BuyCar />
+        <HowItWorks />
+        <Testimonials />
+        <CtaStrip />
+      </main>
+      <Footer />
+      <FloatingActions />
+      <div className="md:hidden h-16" aria-hidden="true" />
+    </div>
   );
 }
