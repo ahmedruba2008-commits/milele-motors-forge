@@ -12,6 +12,8 @@ import appCss from "../styles.css?url";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { QuoteProvider } from "@/context/QuoteContext";
 import { ToastProvider } from "@/context/ToastContext";
+import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -102,6 +104,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      void router.invalidate();
+      void queryClient.invalidateQueries();
+    });
+    return () => subscription.unsubscribe();
+  }, [queryClient, router]);
 
   return (
     <QueryClientProvider client={queryClient}>
