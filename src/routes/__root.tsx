@@ -14,6 +14,7 @@ import { QuoteProvider } from "@/context/QuoteContext";
 import { ToastProvider } from "@/context/ToastContext";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { createAuthState, type RouterAuthState } from "@/lib/auth-state";
 
 function NotFoundComponent() {
   return (
@@ -72,7 +73,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient; auth: RouterAuthState }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -107,9 +108,24 @@ function RootComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+    const syncAuth = (session: Parameters<typeof createAuthState>[0]) => {
+      router.update({
+        ...router.options,
+        context: {
+          ...router.options.context,
+          auth: createAuthState(session),
+        },
+      });
       void router.invalidate();
       void queryClient.invalidateQueries();
+    };
+
+    void supabase.auth.getSession().then(({ data }) => syncAuth(data.session));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
+        syncAuth(session);
+      }
     });
     return () => subscription.unsubscribe();
   }, [queryClient, router]);
