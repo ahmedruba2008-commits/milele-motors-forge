@@ -28,23 +28,18 @@ function AdminPage() {
   const [state, setState] = useState<AuthState>({ status: "loading" });
 
   const refresh = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
       setState({ status: "unauthenticated" });
       return;
     }
-    const email = session.user.email ?? "";
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", session.user.id);
-    const isAdmin = (roles ?? []).some((r) => r.role === "admin");
-    setState(isAdmin ? { status: "admin", email } : { status: "unauthorized", email });
+    const email = (data.user.email ?? "").trim().toLowerCase();
+    setState(email === OWNER_EMAIL ? { status: "admin", email } : { status: "unauthorized", email });
   };
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      void refresh();
+      setTimeout(() => void refresh(), 0);
     });
     void refresh();
     return () => sub.subscription.unsubscribe();
