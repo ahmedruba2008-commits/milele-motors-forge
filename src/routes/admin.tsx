@@ -5,10 +5,17 @@ import { AdminDashboard } from "@/components/milele/AdminDashboard";
 import { Logo } from "@/components/milele/Logo";
 import { useToast } from "@/context/ToastContext";
 import { Lock, Mail, KeyRound, Loader2 } from "lucide-react";
-
-const OWNER_EMAIL = "milelemotors001@gmail.com";
+import { createAuthState, OWNER_EMAIL } from "@/lib/auth-state";
 
 export const Route = createFileRoute("/admin")({
+  beforeLoad: async ({ context }) => {
+    if (context.auth.isAuthenticated) {
+      return { auth: context.auth };
+    }
+
+    const { data } = await supabase.auth.getSession();
+    return { auth: createAuthState(data.session) };
+  },
   head: () => ({
     meta: [
       { title: "Admin · Milele Motors" },
@@ -25,9 +32,20 @@ type AuthState =
   | { status: "admin"; email: string };
 
 function AdminPage() {
-  const [state, setState] = useState<AuthState>({ status: "loading" });
+  const { auth } = Route.useRouteContext();
+  const [state, setState] = useState<AuthState>(() =>
+    auth.isAdmin ? { status: "admin", email: auth.user?.email ?? OWNER_EMAIL } : { status: "loading" }
+  );
 
   const refresh = async () => {
+    const { data: sessionData } = await supabase.auth.getSession();
+    const sessionUser = sessionData.session?.user ?? null;
+    if (sessionUser) {
+      const email = (sessionUser.email ?? "").trim().toLowerCase();
+      setState(email === OWNER_EMAIL ? { status: "admin", email } : { status: "unauthorized", email });
+      return;
+    }
+
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) {
       setState({ status: "unauthenticated" });
