@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AdminDashboard } from "@/components/milele/AdminDashboard";
 import { Logo } from "@/components/milele/Logo";
 import { useToast } from "@/context/ToastContext";
-import { Lock, Mail, KeyRound, Loader2 } from "lucide-react";
+import { Mail, KeyRound, Loader2 } from "lucide-react";
 import { createAuthState, OWNER_EMAIL } from "@/lib/auth-state";
 
 export const Route = createFileRoute("/admin")({
