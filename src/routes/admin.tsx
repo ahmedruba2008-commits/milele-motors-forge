@@ -81,21 +81,9 @@ function AdminPage() {
   }
 
   if (state.status === "unauthorized") {
-    return (
-      <div className="min-h-screen bg-brand-navy grid place-items-center px-4">
-        <div className="max-w-md w-full bg-brand-slate border border-white/10 rounded-2xl p-8 text-center">
-          <Lock className="mx-auto text-red-400" size={32} />
-          <h1 className="text-white font-syne font-bold text-2xl mt-4">Access Denied</h1>
-          <p className="text-white/60 text-sm mt-2">
-            The account <span className="text-white">{state.email}</span> is not authorised to access the admin panel.
-          </p>
-          <button onClick={signOut} className="mt-6 bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-6 py-3 rounded-xl">
-            Sign Out
-          </button>
-        </div>
-      </div>
-    );
+    return <Navigate to="/" />;
   }
+
 
   return <LoginForm onAuthed={refresh} />;
 }
