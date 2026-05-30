@@ -42,7 +42,7 @@ function AdminPage() {
     const sessionUser = sessionData.session?.user ?? null;
     if (sessionUser) {
       const email = (sessionUser.email ?? "").trim().toLowerCase();
-      setState(email === OWNER_EMAIL ? { status: "admin", email } : { status: "unauthorized", email });
+      setState(email?.trim().toLowerCase() === "milelemotors001@gmail.com" ? { status: "admin", email } : { status: "unauthorized", email });
       return;
     }
 
@@ -52,7 +52,7 @@ function AdminPage() {
       return;
     }
     const email = (data.user.email ?? "").trim().toLowerCase();
-    setState(email === OWNER_EMAIL ? { status: "admin", email } : { status: "unauthorized", email });
+    setState(email?.trim().toLowerCase() === "milelemotors001@gmail.com" ? { status: "admin", email } : { status: "unauthorized", email });
   };
 
   useEffect(() => {
