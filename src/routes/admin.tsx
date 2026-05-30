@@ -1,5 +1,5 @@
 import { useEffect, useState, FormEvent } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminDashboard } from "@/components/milele/AdminDashboard";
 import { Logo } from "@/components/milele/Logo";
