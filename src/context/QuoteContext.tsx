@@ -22,7 +22,10 @@ export type Quote = {
 
 const STORAGE_KEY = "milele_quotes";
 
-export type NewQuoteInput = Omit<Quote, "id" | "status" | "submittedAt" | "adminQuotePrice" | "adminNotes" | "adminQuotedAt">;
+export type NewQuoteInput = Omit<
+  Quote,
+  "id" | "status" | "submittedAt" | "adminQuotePrice" | "adminNotes" | "adminQuotedAt"
+>;
 
 type Ctx = {
   quotes: Quote[];
@@ -74,9 +77,15 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     setQuotes((prev) =>
       prev.map((q) =>
         q.id === id
-          ? { ...q, status: "quoted", adminQuotePrice: price, adminNotes: notes, adminQuotedAt: new Date().toISOString() }
-          : q
-      )
+          ? {
+              ...q,
+              status: "quoted",
+              adminQuotePrice: price,
+              adminNotes: notes,
+              adminQuotedAt: new Date().toISOString(),
+            }
+          : q,
+      ),
     );
   }, []);
 

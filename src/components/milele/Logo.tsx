@@ -12,7 +12,13 @@ const sizeMap = {
   lg: "h-14",
 } as const;
 
-export function Logo({ size = "md", className = "" }: { size?: keyof typeof sizeMap; className?: string }) {
+export function Logo({
+  size = "md",
+  className = "",
+}: {
+  size?: keyof typeof sizeMap;
+  className?: string;
+}) {
   const [overrideSrc, setOverrideSrc] = useState<string | null>(null);
   const [errored, setErrored] = useState(false);
 

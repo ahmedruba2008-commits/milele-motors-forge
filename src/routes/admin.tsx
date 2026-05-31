@@ -17,10 +17,7 @@ export const Route = createFileRoute("/admin")({
     return { auth: createAuthState(data.session) };
   },
   head: () => ({
-    meta: [
-      { title: "Admin · Milele Motors" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+    meta: [{ title: "Admin · Milele Motors" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: AdminPage,
 });
@@ -57,7 +54,6 @@ function AdminPage() {
     setState({ status: "unauthenticated" });
   };
 
-
   if (state.status === "loading") {
     return (
       <div className="min-h-screen bg-brand-navy grid place-items-center text-white">
@@ -73,7 +69,6 @@ function AdminPage() {
   if (state.status === "unauthorized") {
     return <Navigate to="/" />;
   }
-
 
   return <LoginForm onAuthed={refresh} />;
 }
@@ -191,7 +186,10 @@ function LoginForm({ onAuthed }: { onAuthed: () => void }) {
         </form>
 
         <button
-          onClick={() => { setErr(null); setMode(mode === "signin" ? "signup" : "signin"); }}
+          onClick={() => {
+            setErr(null);
+            setMode(mode === "signin" ? "signup" : "signin");
+          }}
           className="mt-6 w-full text-center text-white/60 hover:text-white text-sm"
         >
           {mode === "signin"
@@ -200,7 +198,9 @@ function LoginForm({ onAuthed }: { onAuthed: () => void }) {
         </button>
 
         <p className="text-white/30 text-xs text-center mt-6">
-          <a href="/" className="hover:text-white/60">← Back to site</a>
+          <a href="/" className="hover:text-white/60">
+            ← Back to site
+          </a>
         </p>
       </div>
     </div>
