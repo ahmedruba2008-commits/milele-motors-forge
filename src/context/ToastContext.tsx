@@ -23,9 +23,17 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((t) => {
           const Icon = t.kind === "success" ? CheckCircle : t.kind === "error" ? AlertCircle : Info;
           const border =
-            t.kind === "success" ? "border-green-500/50" : t.kind === "error" ? "border-red-500/50" : "border-brand-blue/50";
+            t.kind === "success"
+              ? "border-green-500/50"
+              : t.kind === "error"
+                ? "border-red-500/50"
+                : "border-brand-blue/50";
           const iconColor =
-            t.kind === "success" ? "text-green-400" : t.kind === "error" ? "text-red-400" : "text-brand-blue";
+            t.kind === "success"
+              ? "text-green-400"
+              : t.kind === "error"
+                ? "text-red-400"
+                : "text-brand-blue";
           return (
             <div
               key={t.id}

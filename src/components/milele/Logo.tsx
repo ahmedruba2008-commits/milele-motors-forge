@@ -12,7 +12,13 @@ const sizeMap = {
   lg: "h-14",
 } as const;
 
-export function Logo({ size = "md", className = "" }: { size?: keyof typeof sizeMap; className?: string }) {
+export function Logo({
+  size = "md",
+  className = "",
+}: {
+  size?: keyof typeof sizeMap;
+  className?: string;
+}) {
   const [overrideSrc, setOverrideSrc] = useState<string | null>(null);
   const [errored, setErrored] = useState(false);
 
@@ -20,13 +26,17 @@ export function Logo({ size = "md", className = "" }: { size?: keyof typeof size
     try {
       const o = localStorage.getItem("milele_logo_override");
       if (o) setOverrideSrc(o);
-    } catch {}
+    } catch {
+      void 0;
+    }
     const handler = () => {
       try {
         const o = localStorage.getItem("milele_logo_override");
         setOverrideSrc(o);
         setErrored(false);
-      } catch {}
+      } catch {
+        void 0;
+      }
     };
     window.addEventListener("milele:logo-updated", handler);
     return () => window.removeEventListener("milele:logo-updated", handler);

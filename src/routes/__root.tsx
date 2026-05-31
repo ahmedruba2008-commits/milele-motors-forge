@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { QuoteProvider } from "@/context/QuoteContext";
 import { ToastProvider } from "@/context/ToastContext";
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { createAuthState, type RouterAuthState } from "@/lib/auth-state";
 
@@ -73,7 +73,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient; auth: RouterAuthState }>()({
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+  auth: RouterAuthState;
+}>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -84,8 +87,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient; auth
       { name: "twitter:title", content: "Milele Motors" },
       { property: "og:description", content: "Buy and sell certified used cars with confidence." },
       { name: "twitter:description", content: "Buy and sell certified used cars with confidence." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b6e87a3-8119-4fea-ac23-619bcf0a7501/id-preview-a6a43906--123c3450-2751-4e2f-bd85-fbb390befa71.lovable.app-1780233134896.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b6e87a3-8119-4fea-ac23-619bcf0a7501/id-preview-a6a43906--123c3450-2751-4e2f-bd85-fbb390befa71.lovable.app-1780233134896.png" },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b6e87a3-8119-4fea-ac23-619bcf0a7501/id-preview-a6a43906--123c3450-2751-4e2f-bd85-fbb390befa71.lovable.app-1780233134896.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b6e87a3-8119-4fea-ac23-619bcf0a7501/id-preview-a6a43906--123c3450-2751-4e2f-bd85-fbb390befa71.lovable.app-1780233134896.png",
+      },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:type", content: "website" },
     ],
@@ -97,7 +108,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient; auth
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
+function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -139,8 +150,15 @@ function RootComponent() {
     // Single sequential initial session read — no parallel refresh fan-out.
     void supabase.auth.getSession().then(({ data }) => syncAuth(data.session));
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (
+        event === "SIGNED_IN" ||
+        event === "SIGNED_OUT" ||
+        event === "TOKEN_REFRESHED" ||
+        event === "USER_UPDATED"
+      ) {
         syncAuth(session);
       }
     });

@@ -4,10 +4,26 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 type Feat = { icon: LucideIcon; title: string; body: string };
 
 const items: Feat[] = [
-  { icon: TrendingUp, title: "Fair Market Pricing", body: "Algorithmic and market-backed valuations so you receive exactly what your vehicle is worth — every time." },
-  { icon: ShieldCheck, title: "No Hidden Charges", body: "What you see is what you get. Complete price transparency from inspection through to final payout." },
-  { icon: Award, title: "Expert Evaluation", body: "Certified automotive specialists inspect every vehicle, guaranteeing quality for buyers and sellers." },
-  { icon: Zap, title: "Lightning-Fast Process", body: "Sell your car or complete your purchase in hours — not days. We respect your time." },
+  {
+    icon: TrendingUp,
+    title: "Fair Market Pricing",
+    body: "Algorithmic and market-backed valuations so you receive exactly what your vehicle is worth — every time.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "No Hidden Charges",
+    body: "What you see is what you get. Complete price transparency from inspection through to final payout.",
+  },
+  {
+    icon: Award,
+    title: "Expert Evaluation",
+    body: "Certified automotive specialists inspect every vehicle, guaranteeing quality for buyers and sellers.",
+  },
+  {
+    icon: Zap,
+    title: "Lightning-Fast Process",
+    body: "Sell your car or complete your purchase in hours — not days. We respect your time.",
+  },
 ];
 
 export function Features() {
@@ -17,7 +33,9 @@ export function Features() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={r.ref} className={r.className}>
           <div className="text-center max-w-2xl mx-auto">
-            <p className="text-brand-blue text-xs font-bold uppercase tracking-widest">Why Choose Milele Motors</p>
+            <p className="text-brand-blue text-xs font-bold uppercase tracking-widest">
+              Why Choose Milele Motors
+            </p>
             <h2 className="mt-3 font-syne font-bold text-3xl md:text-5xl tracking-tight text-brand-navy">
               Built on Trust. Driven by Transparency.
             </h2>

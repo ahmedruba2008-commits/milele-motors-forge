@@ -22,7 +22,10 @@ export type Quote = {
 
 const STORAGE_KEY = "milele_quotes";
 
-export type NewQuoteInput = Omit<Quote, "id" | "status" | "submittedAt" | "adminQuotePrice" | "adminNotes" | "adminQuotedAt">;
+export type NewQuoteInput = Omit<
+  Quote,
+  "id" | "status" | "submittedAt" | "adminQuotePrice" | "adminNotes" | "adminQuotedAt"
+>;
 
 type Ctx = {
   quotes: Quote[];
@@ -41,13 +44,19 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setQuotes(JSON.parse(raw));
-    } catch {}
+    } catch {
+      void 0;
+    }
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(quotes)); } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(quotes));
+    } catch {
+      void 0;
+    }
   }, [quotes, hydrated]);
 
   const addQuote = useCallback((q: NewQuoteInput) => {
@@ -68,9 +77,15 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     setQuotes((prev) =>
       prev.map((q) =>
         q.id === id
-          ? { ...q, status: "quoted", adminQuotePrice: price, adminNotes: notes, adminQuotedAt: new Date().toISOString() }
-          : q
-      )
+          ? {
+              ...q,
+              status: "quoted",
+              adminQuotePrice: price,
+              adminNotes: notes,
+              adminQuotedAt: new Date().toISOString(),
+            }
+          : q,
+      ),
     );
   }, []);
 

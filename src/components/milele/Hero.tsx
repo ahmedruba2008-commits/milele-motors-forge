@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { PhoneCall, Sparkles } from "lucide-react";
 import { TEL_LINK, WA_LINK, WhatsAppIcon } from "@/lib/milele";
 
@@ -7,11 +7,13 @@ const years = Array.from({ length: 26 }, (_, i) => 2025 - i);
 function QuoteWidget() {
   const [form, setForm] = useState({ year: "", make: "", model: "", mileage: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     try {
       sessionStorage.setItem("milele_hero_prefill", JSON.stringify(form));
-    } catch {}
+    } catch {
+      void 0;
+    }
     const el = document.getElementById("sell-cars");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     window.dispatchEvent(new CustomEvent("milele:hero-prefill", { detail: form }));
@@ -39,15 +41,46 @@ function QuoteWidget() {
             aria-label="Year of manufacture"
           >
             <option value="">Year of manufacture</option>
-            {years.map((y) => <option key={y} value={y}>{y}</option>)}
+            {years.map((y) => (
+              <option key={y} value={y}>
+                {y}
+              </option>
+            ))}
           </select>
-          <input required placeholder="Make / Brand (e.g. Maruti, Hyundai)" value={form.make} onChange={(e) => setForm({ ...form, make: e.target.value })} className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all" aria-label="Vehicle make" />
-          <input required placeholder="Model (e.g. Swift, i20, City)" value={form.model} onChange={(e) => setForm({ ...form, model: e.target.value })} className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all" aria-label="Vehicle model" />
-          <input required type="number" placeholder="Mileage in km (e.g. 45000)" value={form.mileage} onChange={(e) => setForm({ ...form, mileage: e.target.value })} className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all" aria-label="Mileage" />
-          <button type="submit" className="w-full bg-brand-blue hover:bg-brand-blue-dark text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm mt-2 shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5">
+          <input
+            required
+            placeholder="Make / Brand (e.g. Maruti, Hyundai)"
+            value={form.make}
+            onChange={(e) => setForm({ ...form, make: e.target.value })}
+            className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all"
+            aria-label="Vehicle make"
+          />
+          <input
+            required
+            placeholder="Model (e.g. Swift, i20, City)"
+            value={form.model}
+            onChange={(e) => setForm({ ...form, model: e.target.value })}
+            className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all"
+            aria-label="Vehicle model"
+          />
+          <input
+            required
+            type="number"
+            placeholder="Mileage in km (e.g. 45000)"
+            value={form.mileage}
+            onChange={(e) => setForm({ ...form, mileage: e.target.value })}
+            className="w-full border border-brand-gray-light rounded-xl px-4 py-3 text-brand-navy font-dm-sans focus:outline-none focus:ring-2 focus:ring-brand-blue/50 focus:border-brand-blue transition-all"
+            aria-label="Mileage"
+          />
+          <button
+            type="submit"
+            className="w-full bg-brand-blue hover:bg-brand-blue-dark text-white font-bold py-4 rounded-xl uppercase tracking-widest text-sm mt-2 shadow-md shadow-blue-500/30 transition-all duration-300 hover:-translate-y-0.5"
+          >
             Get My Expert Quote →
           </button>
-          <p className="text-center text-xs text-brand-gray">Our experts will review and send your custom quote.</p>
+          <p className="text-center text-xs text-brand-gray">
+            Our experts will review and send your custom quote.
+          </p>
         </form>
       </div>
     </div>
@@ -70,19 +103,34 @@ export function Hero() {
               <span className="text-brand-blue">Absolute Confidence.</span>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-white/60 leading-relaxed max-w-lg">
-              Fair market prices, zero hidden charges, and expert evaluation.
-              Fast, transparent, and completely hassle-free.
+              Fair market prices, zero hidden charges, and expert evaluation. Fast, transparent, and
+              completely hassle-free.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               {["✓ Fair Pricing", "✓ No Hidden Charges", "✓ Expert Inspection"].map((b) => (
-                <span key={b} className="bg-white/10 text-white/80 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest">{b}</span>
+                <span
+                  key={b}
+                  className="bg-white/10 text-white/80 border border-white/20 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest"
+                >
+                  {b}
+                </span>
               ))}
             </div>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <a href={TEL_LINK} aria-label="Call Milele Motors at 9964174299" className="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60 transition-all duration-300 hover:-translate-y-1">
+              <a
+                href={TEL_LINK}
+                aria-label="Call Milele Motors at 9964174299"
+                className="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60 transition-all duration-300 hover:-translate-y-1"
+              >
                 <PhoneCall size={18} /> Call Now
               </a>
-              <a href={WA_LINK} target="_blank" rel="noopener noreferrer" aria-label="Chat with Milele Motors on WhatsApp" className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 hover:-translate-y-1">
+              <a
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with Milele Motors on WhatsApp"
+                className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 hover:-translate-y-1"
+              >
                 <WhatsAppIcon className="w-5 h-5" /> Chat on WhatsApp
               </a>
             </div>

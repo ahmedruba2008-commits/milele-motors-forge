@@ -33,9 +33,7 @@ export function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-brand-navy/95 backdrop-blur-md shadow-xl"
-          : "bg-transparent"
+        scrolled ? "bg-brand-navy/95 backdrop-blur-md shadow-xl" : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
@@ -73,7 +71,11 @@ export function Navbar() {
         <div className="fixed inset-0 bg-brand-navy z-50 flex flex-col p-6 lg:hidden">
           <div className="flex items-center justify-between">
             <NavLogo />
-            <button aria-label="Close menu" onClick={() => setOpen(false)} className="text-white p-2">
+            <button
+              aria-label="Close menu"
+              onClick={() => setOpen(false)}
+              className="text-white p-2"
+            >
               <X size={26} />
             </button>
           </div>
