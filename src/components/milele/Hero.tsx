@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { PhoneCall, Sparkles } from "lucide-react";
 import { TEL_LINK, WA_LINK, WhatsAppIcon } from "@/lib/milele";
 
@@ -7,7 +7,7 @@ const years = Array.from({ length: 26 }, (_, i) => 2025 - i);
 function QuoteWidget() {
   const [form, setForm] = useState({ year: "", make: "", model: "", mileage: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     try {
       sessionStorage.setItem("milele_hero_prefill", JSON.stringify(form));

@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { QuoteProvider } from "@/context/QuoteContext";
 import { ToastProvider } from "@/context/ToastContext";
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { createAuthState, type RouterAuthState } from "@/lib/auth-state";
 
@@ -108,7 +108,7 @@ export const Route = createRootRouteWithContext<{
   errorComponent: ErrorComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
+function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>

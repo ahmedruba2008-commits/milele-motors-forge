@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, type FormEvent } from "react";
 import { X, Car, Upload, Trash2, Edit3, Phone, MessageCircle, CheckCircle2 } from "lucide-react";
 import { useInventory, Vehicle } from "@/context/InventoryContext";
 import { useQuotes } from "@/context/QuoteContext";
@@ -88,7 +88,7 @@ function AddEditVehicle({
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!form.make || !form.model || !form.price) {
       showToast("Make, model and price are required", "error");
