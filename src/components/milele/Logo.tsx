@@ -20,13 +20,17 @@ export function Logo({ size = "md", className = "" }: { size?: keyof typeof size
     try {
       const o = localStorage.getItem("milele_logo_override");
       if (o) setOverrideSrc(o);
-    } catch {}
+    } catch {
+      void 0;
+    }
     const handler = () => {
       try {
         const o = localStorage.getItem("milele_logo_override");
         setOverrideSrc(o);
         setErrored(false);
-      } catch {}
+      } catch {
+        void 0;
+      }
     };
     window.addEventListener("milele:logo-updated", handler);
     return () => window.removeEventListener("milele:logo-updated", handler);

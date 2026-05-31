@@ -132,7 +132,9 @@ export function SellCar() {
     try {
       const raw = sessionStorage.getItem("milele_hero_prefill");
       if (raw) { apply(JSON.parse(raw)); sessionStorage.removeItem("milele_hero_prefill"); }
-    } catch {}
+    } catch {
+      void 0;
+    }
     const listener = (e: Event) => apply((e as CustomEvent).detail);
     window.addEventListener("milele:hero-prefill", listener);
     return () => window.removeEventListener("milele:hero-prefill", listener);

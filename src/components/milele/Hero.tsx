@@ -11,7 +11,9 @@ function QuoteWidget() {
     e.preventDefault();
     try {
       sessionStorage.setItem("milele_hero_prefill", JSON.stringify(form));
-    } catch {}
+    } catch {
+      void 0;
+    }
     const el = document.getElementById("sell-cars");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     window.dispatchEvent(new CustomEvent("milele:hero-prefill", { detail: form }));
