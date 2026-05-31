@@ -41,13 +41,19 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setQuotes(JSON.parse(raw));
-    } catch {}
+    } catch {
+      void 0;
+    }
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(quotes)); } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(quotes));
+    } catch {
+      void 0;
+    }
   }, [quotes, hydrated]);
 
   const addQuote = useCallback((q: NewQuoteInput) => {

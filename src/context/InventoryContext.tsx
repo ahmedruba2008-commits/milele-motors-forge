@@ -45,13 +45,19 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setVehicles(JSON.parse(raw));
-    } catch {}
+    } catch {
+      void 0;
+    }
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles)); } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+    } catch {
+      void 0;
+    }
   }, [vehicles, hydrated]);
 
   const addVehicle = useCallback((v: Omit<Vehicle, "id" | "createdAt">) => {
