@@ -33,40 +33,30 @@ type AuthState =
 
 function AdminPage() {
   const { auth } = Route.useRouteContext();
-  const [state, setState] = useState<AuthState>(() =>
-    auth.isAdmin ? { status: "admin", email: auth.user?.email ?? OWNER_EMAIL } : { status: "loading" }
-  );
 
-  const refresh = async () => {
-    const { data: sessionData } = await supabase.auth.getSession();
-    const sessionUser = sessionData.session?.user ?? null;
-    if (sessionUser) {
-      const email = (sessionUser.email ?? "").trim().toLowerCase();
-      setState(email?.trim().toLowerCase() === "milelemotors001@gmail.com" ? { status: "admin", email } : { status: "unauthorized", email });
-      return;
-    }
-
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) {
-      setState({ status: "unauthenticated" });
-      return;
-    }
-    const email = (data.user.email ?? "").trim().toLowerCase();
-    setState(email?.trim().toLowerCase() === "milelemotors001@gmail.com" ? { status: "admin", email } : { status: "unauthorized", email });
+  const computeState = (): AuthState => {
+    if (!auth.isAuthenticated) return { status: "unauthenticated" };
+    const email = (auth.user?.email ?? "").trim().toLowerCase();
+    if (email === "milelemotors001@gmail.com") return { status: "admin", email };
+    return { status: "unauthorized", email };
   };
 
+  const [state, setState] = useState<AuthState>(computeState);
+
+  // React to root-level auth context changes (no extra listeners, no parallel
+  // getSession/getUser calls — root already debounces by access_token).
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      setTimeout(() => void refresh(), 0);
-    });
-    void refresh();
-    return () => sub.subscription.unsubscribe();
-  }, []);
+    setState(computeState());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.isAuthenticated, auth.user?.email]);
+
+  const refresh = () => setState(computeState());
 
   const signOut = async () => {
     await supabase.auth.signOut();
     setState({ status: "unauthenticated" });
   };
+
 
   if (state.status === "loading") {
     return (
