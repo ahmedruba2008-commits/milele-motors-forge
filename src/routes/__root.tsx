@@ -108,7 +108,15 @@ function RootComponent() {
   const router = useRouter();
 
   useEffect(() => {
+    let lastToken: string | null | undefined = undefined;
+
     const syncAuth = (session: Parameters<typeof createAuthState>[0]) => {
+      const token = session?.access_token ?? null;
+      // Dedupe: skip when the token hasn't actually changed (prevents
+      // TOKEN_REFRESHED storms triggering parallel invalidations).
+      if (token === lastToken) return;
+      lastToken = token;
+
       router.update({
         ...router.options,
         context: {
@@ -120,6 +128,7 @@ function RootComponent() {
       void queryClient.invalidateQueries();
     };
 
+    // Single sequential initial session read — no parallel refresh fan-out.
     void supabase.auth.getSession().then(({ data }) => syncAuth(data.session));
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
