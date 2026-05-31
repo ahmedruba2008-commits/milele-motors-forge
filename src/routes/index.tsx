@@ -14,9 +14,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Milele Motors — Sell or Buy Used Cars With Confidence" },
-      { name: "description", content: "India's most transparent used vehicle marketplace. Fair pricing, no hidden charges, expert evaluation. Sell or buy your next car in hours, not days." },
+      {
+        name: "description",
+        content:
+          "India's most transparent used vehicle marketplace. Fair pricing, no hidden charges, expert evaluation. Sell or buy your next car in hours, not days.",
+      },
       { property: "og:title", content: "Milele Motors — Sell or Buy Used Cars With Confidence" },
-      { property: "og:description", content: "Fair pricing, zero hidden charges, expert inspection. Get a free quote in 60 seconds." },
+      {
+        property: "og:description",
+        content:
+          "Fair pricing, zero hidden charges, expert inspection. Get a free quote in 60 seconds.",
+      },
       { property: "og:type", content: "website" },
     ],
   }),
